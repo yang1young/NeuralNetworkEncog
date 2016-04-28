@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<CaiNiaoConf>
+    <ModelTypes>
+
+        <ModelType>1</ModelType>
+
+
+    </ModelTypes>
+    <ModelNames>
+        <ModelName>NueralNetwork</ModelName>
+        <ModelName>SVM</ModelName>
+        <ModelName>CART</ModelName>
+        <ModelName>NaiveBayes</ModelName>
+        <ModelName>Logistic</ModelName>
+        <ModelName>RandomForest</ModelName>
+        <ModelName>GBDT</ModelName>
+        <ModelName>AdaBoost</ModelName>
+        <ModelName>Stacking</ModelName>
+        <ModelName>LinearRegression</ModelName>
+
+
+    </ModelNames>
+    <ModelParameters>
+        <Parameter>
+            -H/a#a/-L/0.02/-M/0.2/-D/
+        </Parameter>
+        <Parameter>
+            -K/2/-C/2000/-G/1/-M/400/-W/1 15
+        </Parameter>
+        <Parameter>
+            -M/2/-B/-L/-U/-A
+        </Parameter>
+        <Parameter>
+            -O
+        </Parameter>
+        <Parameter>
+            -R/1E-6
+        </Parameter>
+        <Parameter>
+            -I/50/-K/5/-S/12/-depth/15/-B
+        </Parameter>
+        <Parameter>
+            -I/3/-W/weka.classifiers.functions.MultilayerPerceptron/--/-H/a,a/-L/0.02/-M/0.2/-D
+        </Parameter>
+        <Parameter>
+            -S/1/-I/10/-W/weka.classifiers.functions.MultilayerPerceptron/--/-H/a#a/-L/0.02/-M/0.2/-D
+        </Parameter>
+        <Parameter>
+            -X/4/-M/weka.classifiers.functions.Logistic
+        </Parameter>
+        <Parameter>
+            -S/0
+        </Parameter>
+
+    </ModelParameters>
+
+    <TrainDataSet>
+        /home/qiaoyang/Tianchi/cainiao/src/main/resources/trainData/data_7/train
+    </TrainDataSet>
+
+    <TestDataSet>
+        /home/qiaoyang/Tianchi/cainiao/src/main/resources/testData/test7.csv
+    </TestDataSet>
+
+    <SampleType>10</SampleType>
+
+    <NormalElemFlag>0</NormalElemFlag>
+
+    <SamplePercentage>100</SamplePercentage>
+
+    <ModelPath>
+        /home/qiaoyang/Tianchi/cainiao/src/main/resources/model/nn/
+    </ModelPath>
+
+    <LogPath>
+        /home/qiaoyang/Tianchi/cainiao/src/main/resources/log/
+    </LogPath>
+</CaiNiaoConf>
+
