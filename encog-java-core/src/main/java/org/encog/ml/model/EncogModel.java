@@ -348,6 +348,9 @@ public class EncogModel {
 		}
 		this.methodType = methodType;
 		this.methodArgs = methodArgs;
+		this.trainingType = trainingType;
+		this.trainingArgs = trainingArgs;
+
 		this.config = this.methodConfigurations.get(methodType);
 		dataset.getNormHelper().setStrategy(
 				this.methodConfigurations.get(methodType)
@@ -400,8 +403,11 @@ public class EncogModel {
 					"Please select your training method, before your training type.");
 		}
 		MethodConfig config = this.methodConfigurations.get(methodType);
-		selectTraining(dataset, config.suggestTrainingType(),
-				config.suggestTrainingArgs(trainingType));
+
+
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*selectTraining(dataset, config.suggestTrainingType(),
+				config.suggestTrainingArgs(trainingType));*/
 	}
 
 	/**

@@ -10,9 +10,9 @@ import java.io.*;
 /**
  * Created by qiaoyang on 16-4-27.
  */
-class NormalizationUtils {
+class NeauralUtils {
 
-    public static void persistModel(NormalizationHelper helper, String ModelPath) {
+    public static void persistHelper(NormalizationHelper helper, String ModelPath) {
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(new FileOutputStream(ModelPath));
@@ -25,7 +25,7 @@ class NormalizationUtils {
         // EncogDirectoryPersistence.saveObject(new File(ModelPath),helper);
     }
 
-    public static NormalizationHelper reloadPersistModel(String ModelPath) {
+    public static NormalizationHelper reloadHelper(String ModelPath) {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(new File(ModelPath)));

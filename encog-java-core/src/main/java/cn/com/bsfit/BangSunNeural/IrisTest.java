@@ -98,9 +98,12 @@ public class IrisTest {
             // MLMethodFactor.TYPE_NEAT: NEAT Neural Network
             // MLMethodFactor.TYPE_PNN: Probabilistic Neural Network
             EncogModel model = new EncogModel(data);
-            //model.selectMethod(data, MLMethodFactory.TYPE_FEEDFORWARD);
-            model.selectMethod(data,MLMethodFactory.TYPE_FEEDFORWARD,"?:B->SIGMOID->25:B->SIGMOID->?",MLTrainFactory.TYPE_RPROP, "");
+          //  model.selectMethod(data, MLMethodFactory.TYPE_FEEDFORWARD);
+            //model.selectTraining(data,MLTrainFactory.TYPE_PNN, "?:---MOM=0.1");
 
+            model.selectMethod(data,MLMethodFactory.TYPE_FEEDFORWARD,"?:B->TANH->10->LINEAR->?:B","rprop", "LR=0.01,MOM=0.01");
+
+           // model.selectTraining(data,"rprop", "LR=0.01,MOM=0.01");
             // Send any output to the console.
             model.setReport(new ConsoleStatusReportable());
 

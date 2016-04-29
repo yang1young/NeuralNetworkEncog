@@ -1,0 +1,7 @@
+017 29,2016 02:17:14 下午 : INFO [main] [NormalizationHelper:
+[ColumnDefinition:0(continuous);low=4.300000,high=7.900000,mean=5.843333,sd=0.825301]
+[ColumnDefinition:1(continuous);low=2.000000,high=4.400000,mean=3.054000,sd=0.432147]
+[ColumnDefinition:2(continuous);low=1.000000,high=6.900000,mean=3.758667,sd=1.758529]
+[ColumnDefinition:3(continuous);low=0.100000,high=2.500000,mean=1.198667,sd=0.760613]
+[ColumnDefinition:species(nominal);[Iris-setosa, Iris-versicolor, Iris-virginica]]
+]
