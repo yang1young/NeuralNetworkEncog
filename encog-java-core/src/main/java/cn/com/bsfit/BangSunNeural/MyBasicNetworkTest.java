@@ -72,11 +72,11 @@ class BasicNetworkTest {
         model.selectMethod(data, "feedforward");
         data.normalize();
         System.out.println(data.get(0).toString());
-        NeauralUtils.dataToFile(data, "/home/qiaoyang/BangSun/encog-java-core/src/main/resources/trainData/test.csv");
+        NeuralUtils.dataToFile(data, "/home/qiaoyang/BangSun/encog-java-core/src/main/resources/trainData/test.csv");
 
         NormalizationHelper helper = data.getNormHelper();
         System.out.println(helper.toString());
-        NeauralUtils.persistHelper(helper, "/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
+        NeuralUtils.persistHelper(helper, "/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
 
     }
 
@@ -130,7 +130,7 @@ class BasicNetworkTest {
             return;
         }
         BasicNetwork network = (BasicNetwork) EncogDirectoryPersistence.loadObject(file);
-        NormalizationHelper helper = NeauralUtils.reloadHelper("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
+        NormalizationHelper helper = NeuralUtils.reloadHelper("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
 
         int count = 0;
         int correct = 0;
@@ -156,7 +156,7 @@ class BasicNetworkTest {
     }
 
     public void predict(BasicNetwork network) {
-        NormalizationHelper helper = NeauralUtils.reloadHelper("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
+        NormalizationHelper helper = NeuralUtils.reloadHelper("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/Helper/helper.txt");
         System.out.println(helper.toString());
         String[] line = {"5.1", "3.5", "1.4", "0.2", "Iris-setosa"};
         MLData input = helper.allocateInputVector();

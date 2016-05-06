@@ -23,12 +23,13 @@
  */
 package org.encog.util.csv;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.encog.util.SimpleParser;
 
-public class ParseCSVLine {
+public class ParseCSVLine implements Serializable{
 	
 	private CSVFormat format;
 	

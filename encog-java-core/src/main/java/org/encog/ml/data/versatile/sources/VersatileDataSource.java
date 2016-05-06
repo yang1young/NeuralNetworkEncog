@@ -23,10 +23,12 @@
  */
 package org.encog.ml.data.versatile.sources;
 
+import java.io.Serializable;
+
 /**
  * Defines a data source for the versatile data set.
  */
-public interface VersatileDataSource {
+public interface VersatileDataSource extends Serializable {
 	/**
 	 * Read a line from the source.
 	 * @return The values read.

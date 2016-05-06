@@ -23,6 +23,7 @@
  */
 package org.encog.ml.data.versatile;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.encog.EncogError;
@@ -40,7 +41,7 @@ import org.encog.ml.data.versatile.sources.VersatileDataSource;
  * time series data (the data is NOT expanded in memory). 3. It can easily be
  * segmented into smaller datasets.
  */
-public class VersatileMLDataSet extends MatrixMLDataSet {
+public class VersatileMLDataSet extends MatrixMLDataSet implements Serializable {
 
 	/**
 	 * The source that data is being pulled from.
