@@ -3,12 +3,9 @@ package cn.com.bsfit.BangSunNeural;
 import org.apache.log4j.Logger;
 import org.encog.ConsoleStatusReportable;
 import org.encog.ml.MLRegression;
-import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.versatile.VersatileMLDataSet;
 import org.encog.ml.model.EncogModel;
-import org.encog.util.csv.CSVFormat;
 import org.encog.util.simple.EncogUtility;
-import org.encog.util.simple.TrainingSetUtil;
 
 
 /**

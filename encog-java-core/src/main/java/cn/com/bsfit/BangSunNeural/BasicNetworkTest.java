@@ -29,7 +29,8 @@ import java.io.File;
 /**
  * Created by qiaoyang on 16-4-27.
  */
-public class MyBasicNetworkTest {
+
+public class BasicNetworkTest {
 
     public static void main(String[] args) {
 
@@ -46,10 +47,6 @@ public class MyBasicNetworkTest {
 
         hah.predict(network);
     }
-}
-
-
-class BasicNetworkTest {
 
     public void dataConfig()
     {
