@@ -19,6 +19,8 @@ test.*
 xor.bin
 build
 bin
+/.utility
+
 
 *.iml
 .idea
