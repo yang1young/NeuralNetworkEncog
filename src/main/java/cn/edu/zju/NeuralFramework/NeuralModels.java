@@ -32,7 +32,7 @@ public class NeuralModels {
         model.setReport(new ConsoleStatusReportable());
     }
 
-    public  MLRegression crossValidate(String crossValidateConf) {
+    public MLRegression crossValidate(String crossValidateConf) {
 
         MLRegression bestModel;
         String[] options = crossValidateConf.split("/");

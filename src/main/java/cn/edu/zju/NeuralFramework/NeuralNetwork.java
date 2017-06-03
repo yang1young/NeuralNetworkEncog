@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class NeuralNetwork {
 
+    //your configure XML file
     private static XMLConfiguration brainConfig;
     protected static Logger logger = Logger.getLogger(NeuralNetwork.class);
 
@@ -40,26 +41,27 @@ public class NeuralNetwork {
 
 
     public static void main(String[] args) {
-        PropertyConfigurator.configure("/home/qiaoyang/BangSun/encog-java-core/log4j.properties");
-        NeuralNetwork network = new NeuralNetwork("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/NeuralNetConf.xml");
+        String dir = "";
+        PropertyConfigurator.configure(dir + "log4j.properties");
+        NeuralNetwork network = new NeuralNetwork(dir + "resources/NeuralNetConf.xml");
 
-        MLDataSet data = network.dataConfig(false,true);
+        MLDataSet data = network.dataConfig(false, true);
         network.buildModel((VersatileMLDataSet) data);
 
-        MLDataSet testData = network.dataConfig(false,false);
+        MLDataSet testData = network.dataConfig(false, false);
 
-        network.reloadModel("NueralNetwork0.txt",testData);
+        network.reloadModel("NueralNetwork0.txt", testData);
 
     }
 
-
-    public MLDataSet dataConfig(boolean hasHead,boolean isTrain) {
+    //prepare training and testing data according to XML and save cleaner to files
+    public MLDataSet dataConfig(boolean hasHead, boolean isTrain) {
 
         String helperPath = brainConfig.getString("NormalizeHelperPath");
         String normalizeData = brainConfig.getString("NormalizeDataSet");
         int columnsLength = Integer.parseInt(brainConfig.getString("DataNominalIndex").split(":")[0]);
 
-        if(isTrain){
+        if (isTrain) {
             String originData = brainConfig.getString("TrainDataSet");
             String[] nomialIndexString = brainConfig.getString("DataNominalIndex").split(":")[1].split("/");
             Object[] options = brainConfig.getList("ModelParameters.Parameter").toArray();
@@ -69,18 +71,18 @@ public class NeuralNetwork {
             VersatileMLDataSet data = new VersatileMLDataSet(source);
             ColumnDefinition outputColumn;
             ArrayList<Integer> nomialIndex = new ArrayList<Integer>();
-            for(int i = 0; i < nomialIndexString.length; i++){
+            for (int i = 0; i < nomialIndexString.length; i++) {
                 nomialIndex.add(new Integer(nomialIndexString[i]));
             }
-
+            //treat different with nominal and numeric columns
             for (int j = 0; j < columnsLength - 1; j++) {
                 if (!nomialIndex.contains(j)) {
                     data.defineSourceColumn("" + j, j, ColumnType.continuous);
-                }else {
+                } else {
                     data.defineSourceColumn("" + j, j, ColumnType.nominal);
                 }
             }
-
+            //if is label
             if (nomialIndex.contains(columnsLength - 1)) {
                 outputColumn = data.defineSourceColumn("label", columnsLength - 1, ColumnType.nominal);
             } else {
@@ -100,18 +102,17 @@ public class NeuralNetwork {
             NeuralUtils.persistHelper(helper, helperPath);
 
             return data;
-        }
-        else{
+        } else {
             String testData = brainConfig.getString("TestDataSet");
-            MLDataSet data = TrainingSetUtil.loadCSVTOMemory(CSVFormat.ENGLISH,testData, false, columnsLength-1, 1);
-           // VersatileDataSource source = new CSVDataSource(new File(testData), hasHead, CSVFormat.DECIMAL_POINT);
-           // VersatileMLDataSet data = new VersatileMLDataSet(source);
-
+            MLDataSet data = TrainingSetUtil.loadCSVTOMemory(CSVFormat.ENGLISH, testData, false, columnsLength - 1, 1);
+            // VersatileDataSource source = new CSVDataSource(new File(testData), hasHead, CSVFormat.DECIMAL_POINT);
+            // VersatileMLDataSet data = new VersatileMLDataSet(source);
             return data;
         }
     }
 
 
+    //build models accorfing to XML configuration
     public void buildModel(VersatileMLDataSet data) {
 
         String helperPath = brainConfig.getString("NormalizeHelperPath");
@@ -126,7 +127,7 @@ public class NeuralNetwork {
        /* int inputNum = helper.getInputColumns().size();
         int outputNum = helper.getOutputColumns().size();
         MLDataSet data = TrainingSetUtil.loadCSVTOMemory(CSVFormat.ENGLISH,normalizeData, false, inputNum, outputNum);
-*/
+        */
         for (int i = 0; i < modelTypes.length; i++) {
 
             int modelIndex = Integer.parseInt(modelTypes[i].toString());
@@ -136,28 +137,27 @@ public class NeuralNetwork {
 
             NeuralModels model = new NeuralModels(data, options);
             MLRegression bestModel = model.crossValidate(crossValidateConf);
-            NeuralUtils.evalModelTrain(bestModel,data,helper);
-
-            NeuralUtils.persistModel(bestModel,modelPath+modelNames[modelIndex]+i+".txt");
-
+            NeuralUtils.evalModel(bestModel, data, helper);
+            //save model to file
+            NeuralUtils.persistModel(bestModel, modelPath + modelNames[modelIndex] + i + ".txt");
             Encog.getInstance().shutdown();
 
         }
     }
 
-
-    public void reloadModel(String modelName,MLDataSet data){
+    //reload your neural models from file
+    public void reloadModel(String modelName, MLDataSet data) {
 
         MLRegression model;
         String modelPath = brainConfig.getString("ModelPath");
         String helperPath = brainConfig.getString("NormalizeHelperPath");
 
-        model = NeuralUtils.reloadModels(modelPath+modelName);
-        NormalizationHelper helper  = NeuralUtils.reloadHelper(helperPath);
+        model = NeuralUtils.reloadModels(modelPath + modelName);
+        NormalizationHelper helper = NeuralUtils.reloadHelper(helperPath);
 
-        NeuralUtils.evalModel(model,data,helper);
-        String [] audit = "-0.99851,-0.998981,0,2009,-1,4,-1,-1,-1,1,-0.992481,0,-1,-1,-1,-1,-1,-1,-0.992481".split(",");
-        System.out.println(NeuralUtils.audit(model,audit,helper));
+        NeuralUtils.evalModel(model, data, helper);
+        String[] audit = "-0.99851,-0.998981,0,2009,-1,4,-1,-1,-1,1,-0.992481,0,-1,-1,-1,-1,-1,-1,-0.992481".split(",");
+        System.out.println(NeuralUtils.audit(model, audit, helper));
 
     }
 

@@ -97,12 +97,12 @@ public class IrisTest {
             // MLMethodFactor.TYPE_NEAT: NEAT Neural Network
             // MLMethodFactor.TYPE_PNN: Probabilistic Neural Network
             EncogModel model = new EncogModel(data);
-          //  model.selectMethod(data, MLMethodFactory.TYPE_FEEDFORWARD);
+            //  model.selectMethod(data, MLMethodFactory.TYPE_FEEDFORWARD);
             //model.selectTraining(data,MLTrainFactory.TYPE_PNN, "?:---MOM=0.1");
 
-            model.selectMethod(data,MLMethodFactory.TYPE_FEEDFORWARD,"?:B->TANH->10->LINEAR->?:B","rprop", "LR=0.01,MOM=0.01");
+            model.selectMethod(data, MLMethodFactory.TYPE_FEEDFORWARD, "?:B->TANH->10->LINEAR->?:B", "rprop", "LR=0.01,MOM=0.01");
 
-           // model.selectTraining(data,"rprop", "LR=0.01,MOM=0.01");
+            // model.selectTraining(data,"rprop", "LR=0.01,MOM=0.01");
             // Send any output to the console.
             model.setReport(new ConsoleStatusReportable());
 
@@ -119,11 +119,11 @@ public class IrisTest {
             model.selectTrainingType(data);
 
             // Use a 5-fold cross-validated train.  Return the best method found.
-            MLRegression bestMethod = (MLRegression)model.crossvalidate(5, true);
+            MLRegression bestMethod = (MLRegression) model.crossvalidate(5, true);
 
             // Display the training and validation errors.
-            System.out.println( "Training error: " + EncogUtility.calculateRegressionError(bestMethod, model.getTrainingDataset()));
-            System.out.println( "Validation error: " + EncogUtility.calculateRegressionError(bestMethod, model.getValidationDataset()));
+            System.out.println("Training error: " + EncogUtility.calculateRegressionError(bestMethod, model.getTrainingDataset()));
+            System.out.println("Validation error: " + EncogUtility.calculateRegressionError(bestMethod, model.getValidationDataset()));
 
             // Display our normalization parameters.
             NormalizationHelper helper = data.getNormHelper();
@@ -141,14 +141,14 @@ public class IrisTest {
             String[] line = new String[4];
             MLData input = helper.allocateInputVector();
 
-            while(csv.next()) {
+            while (csv.next()) {
                 StringBuilder result = new StringBuilder();
                 line[0] = csv.get(0);
                 line[1] = csv.get(1);
                 line[2] = csv.get(2);
                 line[3] = csv.get(3);
                 String correct = csv.get(4);
-                helper.normalizeInputVector(line,input.getData(),false);
+                helper.normalizeInputVector(line, input.getData(), false);
                 MLData output = bestMethod.compute(input);
                 String irisChosen = helper.denormalizeOutputVectorToString(output)[0];
 

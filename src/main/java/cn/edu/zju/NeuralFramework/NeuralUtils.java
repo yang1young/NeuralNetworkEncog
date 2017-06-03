@@ -17,6 +17,7 @@ public class NeuralUtils {
 
     protected static Logger logger = Logger.getLogger(NeuralUtils.class);
 
+    // since you do data cleaning, this function help you save the cleaner and you can reload it when predict new data
     public static void persistHelper(NormalizationHelper helper, String HelperPath) {
         ObjectOutputStream oos = null;
         try {
@@ -27,9 +28,9 @@ public class NeuralUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // EncogDirectoryPersistence.saveObject(new File(ModelPath),helper);
     }
 
+    // reload data cleaner
     public static NormalizationHelper reloadHelper(String HelperPath) {
         ObjectInputStream ois = null;
         try {
@@ -42,7 +43,8 @@ public class NeuralUtils {
         return null;
     }
 
-  /*  public static void persistModel(MLRegression model, String ModelPath) {
+    // save and reload models using Encog way, actually is Serlization too
+    /*  public static void persistModel(MLRegression model, String ModelPath) {
 
         EncogDirectoryPersistence.saveObject(new File(ModelPath),model);
     }
@@ -55,6 +57,7 @@ public class NeuralUtils {
         return model;
     }*/
 
+    //save model
     public static void persistModel(MLRegression helper, String HelperPath) {
         ObjectOutputStream oos = null;
         try {
@@ -67,6 +70,7 @@ public class NeuralUtils {
         }
     }
 
+    //reload model
     public static MLRegression reloadModels(String HelperPath) {
         ObjectInputStream ois = null;
         try {
@@ -79,8 +83,8 @@ public class NeuralUtils {
         return null;
     }
 
-
-    public static int audit(MLRegression bestModel,String[] auditData, NormalizationHelper helper) {
+    //used to do once prediction when given a new data
+    public static int audit(MLRegression bestModel, String[] auditData, NormalizationHelper helper) {
 
         int result;
         MLData input = helper.allocateInputVector();
@@ -91,7 +95,8 @@ public class NeuralUtils {
         return result;
     }
 
-    public static void evalModel(MLRegression bestModel,MLDataSet valData, NormalizationHelper helper) {
+    //tools to do model evaluation
+    public static void evalModel(MLRegression bestModel, MLDataSet valData, NormalizationHelper helper) {
 
 
         int[] report = new int[]{0, 0, 0, 0, 0, 0};
@@ -107,11 +112,11 @@ public class NeuralUtils {
 
             for (int i = 0; i < length; i++) {
                 double tempData = input.getData()[i];
-                int m = (int)tempData;
-                if(m==tempData){
-                    auditData[i] = "" +m ;
-                }else{
-                    auditData[i] = "" +tempData ;
+                int m = (int) tempData;
+                if (m == tempData) {
+                    auditData[i] = "" + m;
+                } else {
+                    auditData[i] = "" + tempData;
                 }
             }
 
@@ -149,51 +154,7 @@ public class NeuralUtils {
     }
 
 
-    public static void evalModelTrain(MLRegression bestModel, MLDataSet valData, NormalizationHelper helper) {
-
-
-        int[] report = new int[]{0, 0, 0, 0, 0, 0};
-
-        for (MLDataPair pair : valData) {
-
-            MLData input = pair.getInput();
-            MLData actual = pair.getIdeal();
-
-            MLData output = bestModel.compute(input);
-            int result = Integer.parseInt(helper.denormalizeOutputVectorToString(output)[0]);
-            int origin = Integer.parseInt(helper.denormalizeOutputVectorToString(actual)[0]);
-
-            if (origin == 0) {
-                report[0]++;
-                if (result == 0) {
-                    report[2]++;
-                } else {
-                    report[3]++;
-                }
-            } else {
-                report[1]++;
-                if (result == 1) {
-                    report[4]++;
-                } else {
-                    report[5]++;
-                }
-            }
-        }
-        logger.info("---------0's number is -----" + report[0]);
-        logger.info("---------1's number is -----" + report[1]);
-
-        logger.info("---------0->0-----" + report[2] + "-------Percentage = " + ((double) report[2]) / report[0]);
-        logger.info("---------0->1-----" + report[3] + "-------Percentage = " + ((double) report[3]) / report[0]);
-        logger.info("---------1->1-----" + report[4] + "-------Percentage = " + ((double) report[4]) / report[1]);
-        logger.info("---------1->0-----" + report[5] + "-------Percentage = " + ((double) report[5]) / report[1]);
-
-        logger.info("----------0's---------Precision--------" + ((double) report[2]) / (report[2] + report[5]));
-        logger.info("----------0's---------Recall-------" + ((double) report[2]) / report[0]);
-        logger.info("----------1's---------Precision-------" + ((double) report[4]) / (report[3] + report[4]));
-        logger.info("----------1's---------Recall---------" + ((double) report[4]) / report[1]);
-    }
-
-
+    //save train data files
     public static void dataToFile(VersatileMLDataSet data, String outputFile) {
 
         BufferedWriter bw = null;
@@ -229,39 +190,4 @@ public class NeuralUtils {
 
 }
 
-       /*String s;
-            int origin=0;
-            int result=0;
-            try {
-            BufferedReader br =new BufferedReader(new FileReader("/home/qiaoyang/BangSun/encog-java-core/src/main/resources/testData/data.csv"));
-            do {
-                s = br.readLine();
-                String[]dataAll =s.split(",");
-                String[] auditData = new String[dataAll.length-1];
-                origin = Integer.parseInt(dataAll[dataAll.length-1]);
-                for(int j =0;j<dataAll.length-1;j++) {
-                    auditData[j] = dataAll[j];
-                }
-                result = audit(bestModel,auditData,helper);
-
-                if (origin == 0) {
-                    report[0]++;
-                    if (result == 0) {
-                        report[2]++;
-                    } else {
-                        report[3]++;
-                    }
-                } else {
-                    report[1]++;
-                    if (result == 1) {
-                        report[4]++;
-                    } else {
-                        report[5]++;
-                    }
-                }
-            } while (s != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
 
